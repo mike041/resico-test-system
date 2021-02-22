@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.resico.test.dao.InterfaceMapper">
+
+    <insert id="addInterface" parameterType="Interface">
+        insert into interface values (null,#{name},#{requestType},
+        #{protocolType},#{data},#{url})
+    </insert>
+    <delete id="deleteInterface" parameterType="long">
+        delete from interface where  id=#{id}
+    </delete>
+    <update id="updateInterface" parameterType="cn.resico.test.pojo.Interface">
+        update interface set name =#{name}  where id=#{id} ;
+    </update>
+
+    <select id="queryInterfaceByName" parameterType="String" resultType="cn.resico.test.pojo.Interface">
+        select * from   interface where name like "${name}"
+    </select>
+
+    <select id="queryInterface" resultType="Interface">
+        select * from   interface
+    </select>
+
+</mapper>
+  
