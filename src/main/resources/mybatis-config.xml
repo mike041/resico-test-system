@@ -3,21 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <!-- 配置properties  -->
-
-
     <typeAliases>
         <!-- 配置别名 package-->
         <package name="cn.resico.test.pojo"/>
     </typeAliases>
-
-
-
     <mappers>
         <mapper resource="mapper\InterfaceMapper.xml"></mapper>
         <!--
         package 用于指定dao接口所在的包,当指定完之后就不需要在写mapper以及resource和class了
         -->
-     <!--   <package name="cn.resico.test.dao"/>-->
+        <!--   <package name="cn.resico.test.dao"/>-->
     </mappers>
 </configuration>

@@ -20,5 +20,5 @@ public class Interface {
     private List<Param> paramList;
     private List<Headers> headers;
     private int status;
-    private Long groupId;
+    private int groupId;
 }

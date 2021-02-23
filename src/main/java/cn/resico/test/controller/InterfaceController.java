@@ -5,14 +5,16 @@ import cn.resico.test.service.InterfaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@RestController
+@Controller
+@Transactional
 @RequestMapping("/interface")
 public class InterfaceController {
 
@@ -22,17 +24,46 @@ public class InterfaceController {
     private InterfaceService interfaceService;
 
 
-    @RequestMapping("/allInterFace")
+    @RequestMapping("/allInterface")
     public String list(Model model) {
         List<Interface> interfaceList = interfaceService.queryInterface();
-        ModelAndView mav = new ModelAndView("allBook");
-        mav.addObject("list", interfaceList);
-        for (Interface i:interfaceList
-             ) {
-            System.out.println(i);
-
-        }
-        return "allBook";
+        model.addAttribute(interfaceList);
+        return "allInterface";
     }
+
+
+    @RequestMapping("/toAddInterface")
+    public String toaddInterface(Interface i) {
+        return "addInterface";
+    }
+
+    @RequestMapping("/addInterface")
+    public String addInterface(Interface i) {
+        System.out.println(i);
+        interfaceService.addInterface(i);
+        return "redirect: /interface/allInterface";
+    }
+
+
+    @RequestMapping("/deleteInterface/{id}")
+    public String deleteInterface(@PathVariable("id") int id) {
+        interfaceService.deleteInterface(id);
+        return "redirect: /interface/allInterface";
+    }
+
+
+    @RequestMapping("/toUpdateInterface")
+    public String toUpdateInterface(int id, Model model) {
+        Interface i = interfaceService.queryInterfaceById(id);
+        model.addAttribute("interface", i);
+        return "updateInterface";
+    }
+
+    @RequestMapping("/updateInterface")
+    public String updateInterface(Interface i) {
+        interfaceService.updateInterface(i);
+        return "redirect: /interface/allInterface";
+    }
+
 
 }
