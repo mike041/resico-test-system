@@ -11,12 +11,12 @@
     <delete id="deleteInterface" parameterType="int">
         delete from interface where  id=#{id}
     </delete>
-    <update id="updateInterface" parameterType="cn.resico.test.pojo.Interface">
+    <update id="updateInterface">
         update interface set name =#{name},requestType=#{requestType},protocolType=#{protocolType}    where id=#{id} ;
     </update>
 
     <select id="queryInterfaceByName" parameterType="String" resultType="cn.resico.test.pojo.Interface">
-        select * from   interface where name like "${name}"
+        select * from   interface where name like concat('%',#{0},'%')
     </select>
 
     <select id="queryInterface" resultType="Interface">

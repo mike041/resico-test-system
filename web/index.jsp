@@ -7,16 +7,15 @@
             text-decoration: none;
         }
     </style>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body>
 <div class="container-fluid">
     <div class="row-fluid">
-        <button class="btn btn-primary" type="button">
-            <a href="${pageContext.request.contextPath}/interface/allInterface"> 进入书籍页面</a>
-        </button>
-        <button class="btn btn-primary" type="button">
-            <a href="${pageContext.request.contextPath}/interface/toAddInterface"> 新增书籍页面</a>
+        <button class="btn btn-warning" type="button">
+            <a href="${pageContext.request.contextPath}/interface/allInterface"> 进入接口页面</a>
         </button>
     </div>
 </div>

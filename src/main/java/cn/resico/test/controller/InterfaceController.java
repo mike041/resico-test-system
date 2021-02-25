@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -65,5 +66,10 @@ public class InterfaceController {
         return "redirect: /interface/allInterface";
     }
 
-
+    @RequestMapping("queryInterfaceByName")
+    public String queryInterfaceByName(@RequestParam("name") String name, Model model) {
+        List<Interface> interfaceList = interfaceService.queryInterfaceByName(name);
+        model.addAttribute(interfaceList);
+        return "allInterface";
+    }
 }
