@@ -1,8 +1,10 @@
 package cn.resico.test.dao;
 
+import cn.resico.test.pojo.Condition;
 import cn.resico.test.pojo.Interface;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -23,4 +25,8 @@ public interface InterfaceMapper {
 
     //通过名称查询接口
     List<Interface> queryInterfaceByName(String name);
+
+    List<Interface> queryLimit(HashMap<String, Integer> hashMap);
+
+    List<Interface> query(Condition condition);
 }

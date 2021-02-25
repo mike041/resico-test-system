@@ -22,15 +22,5 @@ public class test {
 
     }
 
-   /* @Test
-    public void test1() {
-        InterfaceMapper mapper = session.getMapper(InterfaceMapper.class);
-        List<Interface> interfaceList = mapper.queryInterface();
-        for (Interface i : interfaceList
-        ) {
-            System.out.println(i);
-        }
-
-    }*/
 
 }

@@ -6,7 +6,7 @@
     <style>
         #new {
             display: inline-block;
-            align:"right";
+            align: "right";
         }
     </style>
     <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" rel="stylesheet">
@@ -25,15 +25,25 @@
         </div>
     </div>
 </div>
-<a  class="btn btn-info active" display="inline" role="button"
+
+
+<a class="btn btn-info active" display="inline" role="button"
    href="${pageContext.request.contextPath}/interface/toAddInterface">
     新增接口页面</a>
 
-<div id="new" >
-    <form  class="form-inline" action="${pageContext.request.contextPath}/interface/queryInterfaceByName">
-        <div   class="form-group">
+<div id="new">
+    <form class="form-inline" action="${pageContext.request.contextPath}/interface/query" method="post">
+        <div class="form-group">
             <label>接口名称</label>
             <input type="text" class="form-control" name="name">
+        </div>
+        <div class="form-group">
+            <label>接口类型</label>
+            <input type="text" class="form-control" name="requestType">
+        </div>
+        <div class="form-group">
+            <label>接口分组</label>
+            <input type="text" class="form-control" name="groupId">
         </div>
         <button type="submit" class="btn btn-info">查询</button>
     </form>

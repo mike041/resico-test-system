@@ -27,5 +27,31 @@
         select * from   interface where id=#{id}
     </select>
 
+    <select id="queryLimit" parameterType="hashmap" resultType="Interface">
+        select * from   interface limit #{startIndex} ,#{page}
+    </select>
+
+    <select id="query" resultType="Interface">
+        SELECT
+        i.id ,
+        i.NAME ,
+        i.requestType ,
+        i.protocolType ,
+        g.NAME gname
+        FROM
+        interface i
+        LEFT JOIN group_ g ON i.group_id = g.id
+        <where>
+            <if test="name != &quot;&quot;  ">
+                AND i.NAME like concat('%',#{name},'%')
+            </if>
+            <if test="requestType != &quot;&quot;">
+                AND i.requestType=#{requestType}
+            </if>
+            <if test="groupId != null">
+                AND i.group_id=#{groupId}
+            </if>
+        </where>
+    </select>
 </mapper>
   

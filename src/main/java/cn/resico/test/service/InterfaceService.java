@@ -1,7 +1,10 @@
 package cn.resico.test.service;
 
+import cn.resico.test.pojo.Condition;
 import cn.resico.test.pojo.Interface;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -24,4 +27,8 @@ public interface InterfaceService {
 
     //通过名称查询接口
     List<Interface> queryInterfaceByName(String name);
+
+    List<Interface> queryLimit(HashMap<String, Integer> map);
+
+    List<Interface> query(Condition condition);
 }
