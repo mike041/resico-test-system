@@ -1,4 +1,4 @@
-package cn.resico.test.pojo;
+package cn.resico.test.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Group {
-    private Long id;
+public class InterfaceGroup {
+    private Integer id;
     private String name;
-    private Long parentGroupId;
-    private String parentGroupName;
+    private String description;
 }

@@ -1,7 +1,7 @@
 package cn.resico.test.controller;
 
-import cn.resico.test.pojo.Condition;
-import cn.resico.test.pojo.Interface;
+import cn.resico.test.entity.Condition;
+import cn.resico.test.entity.Interface;
 import cn.resico.test.service.InterfaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,12 +27,15 @@ public class InterfaceController {
     private InterfaceService interfaceService;
 
 
-    @RequestMapping("/allInterface")
+
+    /*返回统一格式*/
+   /* @RequestMapping("/allInterface")
     public String list(Model model) {
         List<Interface> interfaceList = interfaceService.queryLimit(new HashMap<>());
-        model.addAttribute(interfaceList);
-        return "allInterface";
-    }
+        Result result = new Result();
+        result.code(200).message("成功").success(true).data("list", interfaceList);
+        return JSON.toJSONString(result);
+    }*/
 
 
     @RequestMapping("/toAddInterface")
@@ -75,22 +78,4 @@ public class InterfaceController {
         return "allInterface";
     }
 
-    @RequestMapping("/queryLimit")
-    public String queryLimit(HashMap<String, Integer> map, Model model) {
-        List<Interface> interfaceList = interfaceService.queryLimit(map);
-        model.addAttribute(interfaceList);
-        return "allInterface";
-    }
-
-    @RequestMapping("/query")
-    public String query(Condition condition, Model model
-    ) {
-        System.out.println("InterfaceController" + condition);
-
-        List<Interface> interfaceList = interfaceService.query(condition);
-        model.addAttribute(interfaceList);
-        return "allInterface";
-    }
-
-    ;
 }

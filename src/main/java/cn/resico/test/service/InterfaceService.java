@@ -1,8 +1,7 @@
 package cn.resico.test.service;
 
-import cn.resico.test.pojo.Condition;
-import cn.resico.test.pojo.Interface;
-import org.apache.ibatis.annotations.Param;
+import cn.resico.test.entity.Condition;
+import cn.resico.test.entity.Interface;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,12 +22,6 @@ public interface InterfaceService {
     List<Interface> queryInterface();
 
     Interface queryInterfaceById(int id);
-
-
     //通过名称查询接口
     List<Interface> queryInterfaceByName(String name);
-
-    List<Interface> queryLimit(HashMap<String, Integer> map);
-
-    List<Interface> query(Condition condition);
 }

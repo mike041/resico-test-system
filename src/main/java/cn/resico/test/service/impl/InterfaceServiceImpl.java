@@ -1,14 +1,15 @@
 package cn.resico.test.service.impl;
 
-import cn.resico.test.dao.InterfaceMapper;
-import cn.resico.test.pojo.Condition;
-import cn.resico.test.pojo.Interface;
+import cn.resico.test.mapper.InterfaceMapper;
+import cn.resico.test.entity.Condition;
+import cn.resico.test.entity.Interface;
 import cn.resico.test.service.InterfaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("interfaceServiceImpl")
 public class InterfaceServiceImpl implements InterfaceService {
@@ -20,51 +21,34 @@ public class InterfaceServiceImpl implements InterfaceService {
 
     @Override
     public int addInterface(Interface i) {
-        return interfaceMapper.addInterface(i);
+        return interfaceMapper.insert(i);
     }
 
     @Override
     public int updateInterface(Interface i) {
         System.out.println("InterfaceServiceImpl:Interface" + i);
-        return interfaceMapper.updateInterface(i);
+        return interfaceMapper.updateById(i);
     }
 
     @Override
     public int deleteInterface(long id) {
-        return interfaceMapper.deleteInterface(id);
+        return interfaceMapper.deleteById(id);
     }
 
     @Override
     public List<Interface> queryInterface() {
-        return interfaceMapper.queryInterface();
+        return interfaceMapper.selectByMap(null);
     }
 
     @Override
     public Interface queryInterfaceById(int id) {
-        return interfaceMapper.queryInterfaceById(id);
+        return interfaceMapper.selectById(id);
     }
 
     @Override
     public List<Interface> queryInterfaceByName(String name) {
-        return interfaceMapper.queryInterfaceByName(name);
-    }
-
-    @Override
-    public List<Interface> queryLimit(HashMap<String, Integer> map) {
-        HashMap<String, Integer> defaultMap = new HashMap();
-        final int startIndex = 0;
-        final int page = 5;
-        defaultMap.put("startIndex", startIndex);
-        defaultMap.put("page", page);
-        if (map.isEmpty()) {
-            map.putAll(defaultMap);
-        }
-        return interfaceMapper.queryLimit(map);
-
-    }
-
-    @Override
-    public List<Interface> query(Condition condition) {
-        return interfaceMapper.query(condition);
+        Map<String, Object> map = new HashMap();
+        map.put("name", name);
+        return interfaceMapper.selectByMap(map);
     }
 }

@@ -30,7 +30,7 @@
         </tx:attributes>
     </tx:advice>
     <aop:config>
-        <aop:pointcut id="txPointCut" expression="execution(* cn.resico.test.dao.*.*(..))"/>
+        <aop:pointcut id="txPointCut" expression="execution(* cn.resico.test.mapper.*.*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
     </aop:config>
 </beans>

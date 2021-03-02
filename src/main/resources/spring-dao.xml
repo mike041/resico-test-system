@@ -16,24 +16,69 @@
         <property name="jdbcUrl" value="${jdbc.url}"/>
         <property name="user" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
-
     </bean>
 
 
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <!--绑定mybatis的配置文件-->
+        &lt;!&ndash;绑定mybatis的配置文件&ndash;&gt;
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>-->
 
+
+    <!-- 配置SessionFactory -->
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="globalConfig" ref="globalConfig"/>
+        <property name="typeAliasesPackage" value="cn.resico.test.entity"/>
+        <property name="plugins">
+            <ref bean="mybatisPlusInterceptor"/>
+        </property>
     </bean>
+
+    <!-- 配置mybatisConfig -->
+    <bean id="mybatisConfig" class="com.baomidou.mybatisplus.core.MybatisConfiguration">
+        <property name="mapUnderscoreToCamelCase" value="true"/>
+    </bean>
+
+    <bean id="globalConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig">
+        <!-- 全局ID类型： 0, "数据库ID自增"， 1, "用户输入ID", 2, "全局唯一ID", 3, "全局唯一ID"-->
+        <property name="dbConfig" ref="dbConfig"/>
+    </bean>
+    <bean id="dbConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">
+        <!-- 全局ID类型： 0, "数据库ID自增"， 1, "用户输入ID", 2, "全局唯一ID", 3, "全局唯一ID"-->
+        <property name="idType" value="AUTO"/>
+    </bean>
+
 
     <!--配置dao接口扫描包，动态的实现了dao接口可以注入到spring容器中！-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--注入sqlSessionFactory-->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <!--要扫描的dao包-->
-        <property name="basePackage" value="cn.resico.test.dao"/>
+        <property name="basePackage" value="cn.resico.test.mapper"/>
     </bean>
 
+
+    <bean id="mybatisPlusInterceptor" class="com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor">
+        <property name="interceptors">
+            <list>
+                <ref bean="paginationInnerInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="paginationInnerInterceptor"
+          class="com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor">
+        <!-- 指定数据库为MySQL -->
+        <constructor-arg name="dbType" value="MYSQL"/>
+    </bean>
+
+    <bean id="countSqlParser"
+          class="com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize">
+        <!-- 设置为 true 可以优化部分 left join 的sql -->
+        <property name="optimizeJoin" value="true"/>
+    </bean>
 
 </beans>
