@@ -20,21 +20,25 @@
     </div>
 </div>
 
-<form action="${pageContext.request.contextPath}/interface/updateInterface" method="post">
+<form action="${pageContext.request.contextPath}/interface/update" method="post">
 
     <%--前端传递隐藏域--%>
-    <input type="hidden" name="id" value="${interface.id}">
+    <input type="hidden" name="id" value=${interface.id}>
     <div class="form-group">
         <label>接口名称</label>
-        <input type="text" class="form-control" name="name" value="${interface.name}">
+        <input type="text" class="form-control" name="name" value=${interface.name}>
     </div>
     <div class="form-group">
         <label>请求类型</label>
-        <input type="text" class="form-control" name="requestType" value="${interface.requestType}">
+        <input type="text" class="form-control" name="requestType" value=${interface.requestType}>
     </div>
     <div class="form-group">
         <label>协议类型</label>
-        <input type="text" class="form-control" name="protocolType" value="${interface.protocolType}">
+        <input type="text" class="form-control" name="protocolType" value=${interface.protocolType}>
+    </div>
+    <div class="form-group">
+        <label>参数</label>
+        <input type="text" class="form-control" name="data" value=${interface.data}>
     </div>
     <button type="submit" class="btn btn-default">修改</button>
 </form>

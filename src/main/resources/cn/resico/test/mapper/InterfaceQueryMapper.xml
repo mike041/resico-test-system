@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.resico.test.mapper.InterfaceQueryMapper">
+    <select id="selectList" resultType="cn.resico.test.dto.InterfaceDTO">
+        SELECT t.*,t1.name group_name FROM interface t LEFT JOIN interface_group t1 on t.group_id=t1.id
+        <where>
+            <if test="name!=null and name!=&quot;&quot;">
+                and t.name like concat('%', #{name},'%')
+            </if>
+            <if test="requestType!=null  and requestType !=&quot;&quot;">
+                and t.request_type=#{requestType}
+            </if>
+            <if test="groupId!=null">
+                and t.group_id=#{groupId}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,10 +1,9 @@
 package cn.resico.test.service;
 
-import cn.resico.test.entity.Condition;
 import cn.resico.test.entity.InterfaceGroup;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public interface InterfaceGroupService {
@@ -14,13 +13,11 @@ public interface InterfaceGroupService {
 
     int deleteGroup(long id);
 
-    List<InterfaceGroup> queryGroup();
+    int deleteGroupByIds(List<Integer> ids);
 
-    InterfaceGroup queryGroupById(int id);
+    InterfaceGroup queryGroupById(Integer id);
 
-    List<InterfaceGroup> queryGroupByName(String name);
+    List<InterfaceGroup> queryGroupByIds(List<Integer> ids);
 
-    List<InterfaceGroup> queryLimit(HashMap<String, Integer> hashMap);
-
-    List<InterfaceGroup> query(Condition condition);
+    List<InterfaceGroup> query(Map<String, Object> map);
 }

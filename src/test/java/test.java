@@ -1,16 +1,21 @@
 
 import cn.resico.test.entity.Interface;
 import cn.resico.test.mapper.InterfaceMapper;
+import cn.resico.test.service.InterfaceService;
+import cn.resico.test.service.impl.InterfaceServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.mockito.Mockito.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +26,26 @@ import java.util.Map;
 public class test {
 
     @Autowired
-    InterfaceMapper interfaceMapper;
+    private InterfaceMapper interfaceMapper;
+    @Autowired
+    private InterfaceService interfaceService;
+
+    @Before
+    public void before() {
+
+
+        if (Thread.currentThread().getStackTrace()[1].getClassName().equals("test")) {
+            interfaceMapper = mock(InterfaceMapper.class);
+            when(interfaceMapper.insert(isA(Interface.class))).thenReturn(2);
+            interfaceService = new InterfaceServiceImpl();
+        }
+    }
+
+    @After
+    public void after() {
+
+    }
+
 
     @Test
     public void test() {
@@ -51,10 +75,23 @@ public class test {
         wrapper.isNotNull("request_type")
                 .isNotNull("data");
 
-
         List<Interface> interfaceList = interfaceMapper.selectList(wrapper);
         System.out.println("----------------------------------------------");
         interfaceList.forEach(System.out::println);
+    }
+
+    @Test
+    public void testService() {
+        Interface i = interfaceMapper.selectById(1);
+        System.out.println("testService:" + i);
+        i.setName("xin1");
+        interfaceService.updateInterface(i);
+    }
+
+    @Test
+    public void test1() {
+        System.out.println("interfaceMapper:" + interfaceMapper);
+
 
     }
 }

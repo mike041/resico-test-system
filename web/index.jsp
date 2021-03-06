@@ -15,13 +15,7 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <button class="btn btn-warning" type="button">
-            <a href="${pageContext.request.contextPath}/interface/allInterface"> 进入接口页面</a>
-        </button>
-    </div>
-
-    <div class="row-fluid">
-        <button class="btn btn-warning" type="button">
-            <a href="${pageContext.request.contextPath}/group/queryGroup"> 先请求分组</a>
+            <a href="${pageContext.request.contextPath}/interface/listPage"> 进入接口页面</a>
         </button>
     </div>
 </div>

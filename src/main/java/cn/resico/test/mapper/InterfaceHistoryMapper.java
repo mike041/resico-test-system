@@ -1,6 +1,6 @@
 package cn.resico.test.mapper;
 
-import cn.resico.test.entity.InterfaceHisotry;
+import cn.resico.test.entity.InterfaceHistory;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author zyt
  * @since 2021-03-02
  */
-public interface InterfaceHisotryMapper extends BaseMapper<InterfaceHisotry> {
+public interface InterfaceHistoryMapper extends BaseMapper<InterfaceHistory> {
 
 }

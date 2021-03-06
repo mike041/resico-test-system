@@ -1,4 +1,4 @@
-package cn.resico.test.entity;
+package cn.resico.test.dto;
 
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class Interface {
+public class InterfaceDTO {
     @TableId(type = IdType.AUTO)
     private int id;
     private String name;
@@ -32,6 +32,8 @@ public class Interface {
     private int status;
     @TableField("group_id")
     private int groupId;
+    @TableField("group_name")
+    private String groupName;
     @TableField(value = "created_at", fill = FieldFill.INSERT)
     private Date createdAt;
     @TableField(value = "updated_at", fill = FieldFill.INSERT_UPDATE)

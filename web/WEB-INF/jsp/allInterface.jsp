@@ -28,7 +28,7 @@
 
 
 <a class="btn btn-info active" display="inline" role="button"
-   href="${pageContext.request.contextPath}/interface/toAddInterface">
+   href="${pageContext.request.contextPath}/interface/addPage">
     新增接口页面</a>
 
 
@@ -48,7 +48,7 @@
 
 
 <div id="new">
-    <form class="form-inline" action="${pageContext.request.contextPath}/interface/query" method="post">
+    <form class="form-inline" action="${pageContext.request.contextPath}/interface/listPage" method="post">
         <div class="form-group">
             <label>接口名称</label>
             <input type="text" class="form-control" name="name">
@@ -59,7 +59,7 @@
         </div>
         <div class="form-group">
             <label>接口分组</label>
-            <input type="text" class="form-control" name="groupId" value="${interface.groupId}">
+            <input type="text" class="form-control" name="groupId">
         </div>
         <button type="submit" class="btn btn-info">查询</button>
     </form>
@@ -79,6 +79,9 @@
                         名称
                     </th>
                     <th>
+                       分组名称
+                    </th>
+                    <th>
                         请求类型
                     </th>
                     <th>
@@ -91,24 +94,29 @@
                 </thead>
                 <tbody>
 
-                <c:forEach var="interface" items="${interfaceList}">
+                <c:forEach var="interfaceDTO" items="${interfaceList}">
                     <tr>
                         <td>
-                                ${interface.id}
+                                ${interfaceDTO.id}
                         </td>
                         <td>
-                                ${interface.name}
+                                ${interfaceDTO.name}
                         </td>
                         <td>
-                                ${interface.requestType}
+                                ${interfaceDTO.groupName}
                         </td>
                         <td>
-                                ${interface.protocolType}
+                                ${interfaceDTO.requestType}
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/interface/toUpdateInterface?id=${interface.id}">修改</a>
+                                ${interfaceDTO.protocolType}
+                        </td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/interface/updatePage?id=${interfaceDTO.id}">修改</a>
                             &nbsp; | &nbsp;
-                            <a href="${pageContext.request.contextPath}/interface/deleteInterface/${interface.id}">删除</a>
+<%--
+                            <a href="${pageContext.request.contextPath}/interface/delete/${interfaceDTO.id}">删除</a>
+--%>
                         </td>
                     </tr>
                 </c:forEach>

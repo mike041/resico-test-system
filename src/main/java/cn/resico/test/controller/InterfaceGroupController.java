@@ -4,41 +4,34 @@ import cn.resico.test.entity.InterfaceGroup;
 import cn.resico.test.service.InterfaceGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/group")
 public class InterfaceGroupController {
-
+    /*controller 调用service*/
     @Autowired
     InterfaceGroupService interfaceGroupService;
 
-    /*int addGroup(Group i);
+    @RequestMapping("/add")
+    public String addInterface(InterfaceGroup i) {
+        interfaceGroupService.addGroup(i);
+        return null;
+    }
 
-    int updateGroup(Group i);
 
-    int deleteGroup(long id);
+    @RequestMapping("/delete/{id}")
+    public String deleteInterface(@PathVariable("id") int id) {
+        interfaceGroupService.deleteGroup(id);
+        return "redirect: /interface/allInterface";
+    }
 
 
-    Group queryGroupById(int id);
-
-    List<Group> queryGroupByName(String name);
-
-    List<Group> queryLimit(HashMap<String, Integer> hashMap);
-
-    List<Group> query(Condition condition);*/
-    @RequestMapping("/queryGroup")
-    public String queryGroup(Model model) {
-        List<InterfaceGroup> interfaceGroupList = interfaceGroupService.queryGroup();
-        for (InterfaceGroup g: interfaceGroupList
-             ) {
-            System.out.println("GroupController"+g);
-        }
-        model.addAttribute(interfaceGroupList);
-        return "allInterface";
+    @RequestMapping("/update")
+    public String updateInterface(InterfaceGroup i) {
+        interfaceGroupService.updateGroup(i);
+        return "redirect: /interface/allInterface";
     }
 
 }

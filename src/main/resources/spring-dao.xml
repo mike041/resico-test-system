@@ -45,7 +45,9 @@
     <bean id="globalConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig">
         <!-- 全局ID类型： 0, "数据库ID自增"， 1, "用户输入ID", 2, "全局唯一ID", 3, "全局唯一ID"-->
         <property name="dbConfig" ref="dbConfig"/>
+        <property name="metaObjectHandler" ref="metaObjectHandler"/>
     </bean>
+
     <bean id="dbConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">
         <!-- 全局ID类型： 0, "数据库ID自增"， 1, "用户输入ID", 2, "全局唯一ID", 3, "全局唯一ID"-->
         <property name="idType" value="AUTO"/>
@@ -79,6 +81,10 @@
           class="com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize">
         <!-- 设置为 true 可以优化部分 left join 的sql -->
         <property name="optimizeJoin" value="true"/>
+    </bean>
+
+    <!--自定义自动填充-->
+    <bean id="metaObjectHandler" class="cn.resico.test.handler.MyMetaObjectHandler">
     </bean>
 
 </beans>
