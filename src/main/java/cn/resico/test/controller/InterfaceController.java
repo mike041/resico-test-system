@@ -1,5 +1,6 @@
 package cn.resico.test.controller;
 
+import cn.resico.test.common.Result;
 import cn.resico.test.dto.InterfaceDTO;
 import cn.resico.test.entity.Interface;
 import cn.resico.test.service.InterfaceQueryService;
@@ -7,13 +8,13 @@ import cn.resico.test.service.InterfaceService;
 import cn.resico.test.vo.interfcace.InterfaceQuery;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -42,6 +43,14 @@ public class InterfaceController {
         List<InterfaceDTO> interfaceList = interfaceQueryService.query(query);
         model.addAttribute("interfaceList", interfaceList);
         return "allInterface";
+    }
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public Result<List<InterfaceDTO>> test(InterfaceQuery query, Model model) {
+        List<InterfaceDTO> interfaceList = interfaceQueryService.query(query);
+        model.addAttribute("interfaceList", interfaceList);
+        return Result.succeed(interfaceList);
     }
 
     /**

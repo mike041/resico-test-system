@@ -1,11 +1,9 @@
 package cn.resico.test.service;
 
-import cn.resico.test.dto.InterfaceDTO;
 import cn.resico.test.entity.Interface;
 import cn.resico.test.vo.interfcace.InterfaceQuery;
 
 import java.util.List;
-import java.util.Map;
 
 
 public interface InterfaceService {
@@ -19,7 +17,7 @@ public interface InterfaceService {
     //删除一个接口
     int deleteInterface(Integer id);
 
-    //批量删除一个接口
+    //批量删除接口
     int deleteInterfaceByIds(List<Integer> ids);
 
 

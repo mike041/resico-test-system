@@ -32,7 +32,7 @@ public class TestSwagger {
         JsonNode paths = objectMapper.readTree(swaggerData).get("paths");
         definitions = objectMapper.readTree(swaggerData).get("definitions");
 
-
+        /*获取接口分组*/
        /* JavaType type = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, InterfaceGroup.class);
         ArrayList<InterfaceGroup> groups = objectMapper.readValue(tags.toString(), type);
         for (InterfaceGroup group : groups
