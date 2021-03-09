@@ -4,17 +4,20 @@ package cn.resico.test.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zyt
  * @since 2021-03-02
  */
+@Data
+
 public class Testcase implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,36 +35,4 @@ public class Testcase implements Serializable {
     private Integer testcaseGroupId;
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getTestcaseGroupId() {
-        return testcaseGroupId;
-    }
-
-    public void setTestcaseGroupId(Integer testcaseGroupId) {
-        this.testcaseGroupId = testcaseGroupId;
-    }
-
-    @Override
-    public String toString() {
-        return "Testcase{" +
-        ", id=" + id +
-        ", name=" + name +
-        ", testcaseGroupId=" + testcaseGroupId +
-        "}";
-    }
 }

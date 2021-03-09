@@ -18,7 +18,7 @@
             <a href="${pageContext.request.contextPath}/interface/listPage"> 进入接口页面</a>
         </button>
         <button class="btn btn-warning" type="button">
-            <a href="${pageContext.request.contextPath}/interface/test"> 测试</a>
+            <a href="${pageContext.request.contextPath}/testcase/listPage"> 进入用例页面</a>
         </button>
     </div>
 </div>

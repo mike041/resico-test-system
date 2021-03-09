@@ -39,31 +39,31 @@ public class InterfaceHistory implements Serializable {
     @TableField("interface_id")
     private Integer interfaceId;
     /**
-     * 用户ID
+     * 接口名称
      */
     private String name;
     /**
-     * 角色ID
+     * 请求类型
      */
     @TableField("request_type")
     private String requestType;
     /**
-     * 角色ID
+     * 协议类型
      */
     @TableField("protocol_type")
     private String protocolType;
     /**
-     * 角色ID
+     * 请求参数
      */
     private String data;
     /**
-     * 角色ID
+     * 请求路径
      */
     private String url;
     private String params;
     private List<Headers> headers;
     /**
-     * 1.可用  2.不可用 3.废弃
+     * 状态 1.可用  2.不可用 3.废弃
      */
     private Integer status;
     @TableField("group_id")

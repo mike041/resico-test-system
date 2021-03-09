@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.resico.test.mapper.InterfaceQueryMapper">
+<mapper namespace="cn.resico.test.mapper.InterfaceMapper">
     <select id="selectList" resultType="cn.resico.test.dto.InterfaceDTO">
         SELECT t.*,t1.name group_name FROM interface t LEFT JOIN interface_group t1 on t.group_id=t1.id
         <where>
@@ -14,5 +14,27 @@
                 and t.group_id=#{groupId}
             </if>
         </where>
+    </select>
+
+
+    <select id="selectInstance" resultType="cn.resico.test.dto.InterfaceInstanceDTO">
+        SELECT
+	ii.interface_id,
+	ii.testcase_id,
+	ii.is_execute,
+	ii.DATA instance_data,
+	ii.verification_type,
+	ii.verification_context,
+	ii.interface_instance_result,
+	ii.sort,
+	t.NAME testcase_name,
+	i.DATA interface_data,
+	i.NAME interface_name,
+	i.url interface_url
+FROM
+	interface_instance ii
+	LEFT JOIN testcase t ON t.id = ii.testcase_id
+	LEFT JOIN interface i ON ii.interface_id = i.id
+	where ii.testcase_id=#{id}
     </select>
 </mapper>

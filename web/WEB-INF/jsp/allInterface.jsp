@@ -76,10 +76,13 @@
                         编号
                     </th>
                     <th>
-                        名称
+                        接口名称
                     </th>
                     <th>
-                       分组名称
+                        接口路径
+                    </th>
+                    <th>
+                        分组名称
                     </th>
                     <th>
                         请求类型
@@ -103,6 +106,9 @@
                                 ${interfaceDTO.name}
                         </td>
                         <td>
+                                ${interfaceDTO.url}
+                        </td>
+                        <td>
                                 ${interfaceDTO.groupName}
                         </td>
                         <td>
@@ -114,9 +120,9 @@
                         <td>
                             <a href="${pageContext.request.contextPath}/interface/updatePage?id=${interfaceDTO.id}">修改</a>
                             &nbsp; | &nbsp;
-<%--
-                            <a href="${pageContext.request.contextPath}/interface/delete/${interfaceDTO.id}">删除</a>
---%>
+                                <%--
+                                                            <a href="${pageContext.request.contextPath}/interface/delete/${interfaceDTO.id}">删除</a>
+                                --%>
                         </td>
                     </tr>
                 </c:forEach>

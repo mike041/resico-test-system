@@ -2,13 +2,15 @@ package cn.resico.test.service.impl;
 
 import cn.resico.test.converter.InterfaceConverter;
 import cn.resico.test.dto.InterfaceDTO;
+import cn.resico.test.dto.InterfaceInstanceDTO;
 import cn.resico.test.entity.InterfaceHistory;
+import cn.resico.test.entity.InterfaceInstance;
 import cn.resico.test.mapper.InterfaceHistoryMapper;
+import cn.resico.test.mapper.InterfaceInstanceMapper;
 import cn.resico.test.mapper.InterfaceMapper;
 import cn.resico.test.entity.Interface;
 import cn.resico.test.service.InterfaceService;
 import cn.resico.test.vo.interfcace.InterfaceQuery;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class InterfaceServiceImpl implements InterfaceService {
     //service层 调用dao层
     @Autowired
     private InterfaceMapper interfaceMapper;
+    @Autowired
+    private InterfaceInstanceMapper interfaceInstanceMapper;
     @Autowired
     private InterfaceHistoryMapper interfaceHistoryMapper;
 
@@ -61,21 +65,42 @@ public class InterfaceServiceImpl implements InterfaceService {
     }
 
     @Override
+    public List<InterfaceInstanceDTO> queryInterfaceInstanceById(Integer id) {
+        return interfaceMapper.selectInstance(id);
+    }
+
+    @Override
     public List<Interface> queryInterfaceByIds(List<Integer> ids) {
         return interfaceMapper.selectBatchIds(ids);
     }
 
     @Override
-    public List<Interface> query(InterfaceQuery query) {
-        QueryWrapper<Interface> wrapper = new QueryWrapper();
-        if (null != query.getName() && "" != query.getName()) {
-            wrapper.like("name", query.getName());
-        }
-        if (null != query.getGroupId()) {
-            wrapper.like("group_id", query.getGroupId());
-        }
-        if (null != query.getRequestType() && "" != query.getRequestType())
-            wrapper.like("request_type", query.getRequestType());
-        return interfaceMapper.selectList(wrapper);
+    public List<InterfaceDTO> query(InterfaceQuery query) {
+        return interfaceMapper.selectList(query);
     }
+
+    @Override
+    public int addInstance(InterfaceInstance i) {
+        return interfaceInstanceMapper.insert(i);
+    }
+
+    @Override
+    public int updateInstance(InterfaceInstance i) {
+        return interfaceInstanceMapper.updateById(i);
+    }
+
+    @Override
+    public int deleteInstance(Integer id) {
+        return interfaceInstanceMapper.deleteById(id);
+    }
+
+    @Override
+    public int deleteInstancesByIds(List<Integer> ids) {
+        return interfaceInstanceMapper.deleteBatchIds(ids);
+    }
+
+
+
+
+
 }

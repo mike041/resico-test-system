@@ -5,8 +5,11 @@ import lombok.Data;
 @Data
 public class Param {
     String description;
-    ParamType type;
     String format;
-    String $ref;
-    String originalRef;
+    String in;
+    String name;
+    String type;
+    String items;
+    boolean required;
+    String schema;
 }

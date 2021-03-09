@@ -1,9 +1,8 @@
 package cn.resico.test.controller;
 
-import cn.resico.test.common.Result;
 import cn.resico.test.dto.InterfaceDTO;
 import cn.resico.test.entity.Interface;
-import cn.resico.test.service.InterfaceQueryService;
+import cn.resico.test.entity.InterfaceInstance;
 import cn.resico.test.service.InterfaceService;
 import cn.resico.test.vo.interfcace.InterfaceQuery;
 import lombok.AllArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -25,8 +23,6 @@ import java.util.List;
 public class InterfaceController {
 
     /*controller 调用service*/
-    @Autowired
-    private InterfaceQueryService interfaceQueryService;
     @Autowired
     private InterfaceService interfaceService;
 
@@ -39,18 +35,10 @@ public class InterfaceController {
      */
 
     @RequestMapping("/listPage")
-    public String getInterfaceList(InterfaceQuery query, Model model) {
-        List<InterfaceDTO> interfaceList = interfaceQueryService.query(query);
+    public String interfaceList(InterfaceQuery query, Model model) {
+        List<InterfaceDTO> interfaceList = interfaceService.query(query);
         model.addAttribute("interfaceList", interfaceList);
         return "allInterface";
-    }
-
-    @RequestMapping("/test")
-    @ResponseBody
-    public Result<List<InterfaceDTO>> test(InterfaceQuery query, Model model) {
-        List<InterfaceDTO> interfaceList = interfaceQueryService.query(query);
-        model.addAttribute("interfaceList", interfaceList);
-        return Result.succeed(interfaceList);
     }
 
     /**
@@ -59,7 +47,7 @@ public class InterfaceController {
      * @return
      */
     @RequestMapping("/addPage")
-    public String toaddInterface() {
+    public String toAdd() {
         return "addInterface";
     }
 
@@ -71,7 +59,7 @@ public class InterfaceController {
      * @return
      */
     @RequestMapping("/updatePage")
-    public String toUpdateInterface(int id, Model model) {
+    public String toUpdate(int id, Model model) {
         Interface i = interfaceService.queryInterfaceById(id);
         model.addAttribute("interface", i);
         return "updateInterface";
@@ -95,7 +83,29 @@ public class InterfaceController {
 
     @RequestMapping("/update")
     public String updateInterface(Interface i) {
+        System.out.println("controller:" + i.getData());
         interfaceService.updateInterface(i);
+        return "redirect: /interface/listPage";
+    }
+
+
+    @RequestMapping("/instance/add")
+    public String addInstance(InterfaceInstance i) {
+        interfaceService.addInstance(i);
+        return "redirect: /interface/listPage";
+    }
+
+
+    @RequestMapping("/delete/instance/{id}")
+    public String deleteInstance(@PathVariable("id") int id) {
+        interfaceService.deleteInstance(id);
+        return "redirect: /interface/listPage";
+    }
+
+
+    @RequestMapping("/update/instance")
+    public String updateInstance(InterfaceInstance i) {
+        interfaceService.updateInstance(i);
         return "redirect: /interface/listPage";
     }
 

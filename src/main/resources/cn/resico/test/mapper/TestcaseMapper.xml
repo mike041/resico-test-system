@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.resico.test.mapper.TestcaseMapper">
+    <select id="select" resultType="cn.resico.test.entity.Testcase">
+        SELECT t.*,t1.name groupName FROM testcase t LEFT JOIN testcase_group t1 on t.testcase_group_id=t1.id
+        <where>
+            <if test="name!= null and name!=&quot;&quot;">
+                and t.name like concat('%', #{name},'%')
+            </if>
+
+            <if test="groupId!=null and groupId!=&quot;&quot;">
+                and t.testcase_group_id=#{groupId}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -12,7 +12,7 @@
         <div class="col-md-12 column">
             <div class="page-header">
                 <h1>
-                    <small>修改接口</small>
+                    <small>增加接口</small>
                 </h1>
             </div>
 
@@ -20,28 +20,22 @@
     </div>
 </div>
 
-<form action="${pageContext.request.contextPath}/interface/update" method="post">
-
-    <%--前端传递隐藏域--%>
-    <input type="hidden" name="id" value=${interface.id}>
+<form action="addInterfaceInstance">
     <div class="form-group">
         <label>接口名称</label>
-        <input type="text" class="form-control" name="name" value=${interface.name}>
+        <input type="text" class="form-control" name="name">
     </div>
     <div class="form-group">
         <label>请求类型</label>
-        <input type="text" class="form-control" name="requestType" value=${interface.requestType}>
+        <input type="text" class="form-control" name="requestType">
     </div>
     <div class="form-group">
         <label>协议类型</label>
-        <input type="text" class="form-control" name="protocolType" value=${interface.protocolType}>
+        <input type="text" class="form-control" name="protocolType">
     </div>
-    <div class="form-group">
-        <label>参数</label>
-        <input type="textarea"  class="form-control" rows="5" name="data" value=${interface.data}>
-
-    </div>
-    <button type="submit" class="btn btn-default">修改</button>
+    <button type="submit" class="btn btn-default">提交</button>
 </form>
+
+
 </body>
 </html>
