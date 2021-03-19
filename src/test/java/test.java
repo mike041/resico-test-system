@@ -1,49 +1,55 @@
 
+
+import cn.resico.test.dto.InterfaceInstanceDTO;
 import cn.resico.test.entity.Interface;
 import cn.resico.test.mapper.InterfaceMapper;
 import cn.resico.test.service.InterfaceService;
-import cn.resico.test.service.impl.InterfaceServiceImpl;
+import cn.resico.test.service.TestcaseService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import static org.mockito.Mockito.*;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.ServletContextListener;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Method;
+import java.text.Collator;
+import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContent.xml"})
-public class test {
+@Slf4j
+public class test extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private InterfaceMapper interfaceMapper;
     @Autowired
     private InterfaceService interfaceService;
+    @Autowired
+    private TestcaseService testcaseService;
 
-    @Before
+    @BeforeClass
     public void before() {
 
 
-        if (Thread.currentThread().getStackTrace()[1].getClassName().equals("test")) {
-            interfaceMapper = mock(InterfaceMapper.class);
-            when(interfaceMapper.insert(isA(Interface.class))).thenReturn(2);
-            interfaceService = new InterfaceServiceImpl();
-        }
     }
 
-    @After
+    @AfterClass
     public void after() {
-
+        log.error("Slf4j的日志");
     }
 
 
@@ -88,10 +94,70 @@ public class test {
         interfaceService.updateInterface(i);
     }
 
-    @Test
-    public void test1() {
-        System.out.println("interfaceMapper:" + interfaceMapper);
+
+    @DataProvider(name = "testcase")
+    public Iterator<Object[]> dataProvider() {
+        List<Object[]> list = new ArrayList<>();
+        List<InterfaceInstanceDTO> interfaceInstanceDTOList = interfaceService.queryInterfaceInstanceById(1);
+        for (InterfaceInstanceDTO interfaceInstanceDTO : interfaceInstanceDTOList) {
+            InterfaceInstanceDTO[] objects = new InterfaceInstanceDTO[]{interfaceInstanceDTO};
+            list.add(objects);
+        }
+        return list.iterator();
+    }
+
+    @Test(timeOut = 100,groups = "ss",enabled = true,description = "描述")
+    public void test100() throws NoSuchMethodException {
+
+        Method method = this.getClass().getMethod("test100");
+        method.isAnnotationPresent(Test.class);
 
 
+        Test annotation = method.getAnnotation(Test.class);
+        long l = annotation.timeOut();
+        String[] groups = annotation.groups();
+        boolean enabled = annotation.enabled();
+        String description = annotation.description();
+
+
+
+
+    }
+
+    class Student {
+        private int id;
+        private String name;
+
+        public Student(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public Student() {
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return "Student{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    '}';
+        }
     }
 }

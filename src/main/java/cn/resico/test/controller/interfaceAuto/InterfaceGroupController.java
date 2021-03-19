@@ -1,4 +1,4 @@
-package cn.resico.test.controller;
+package cn.resico.test.controller.interfaceAuto;
 
 import cn.resico.test.entity.InterfaceGroup;
 import cn.resico.test.service.InterfaceGroupService;

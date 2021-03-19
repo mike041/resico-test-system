@@ -1,5 +1,5 @@
-import cn.resico.test.controller.InterfaceController;
-import cn.resico.test.controller.TestcaseController;
+import cn.resico.test.controller.interfaceAuto.InterfaceController;
+import cn.resico.test.controller.interfaceAuto.TestcaseController;
 import cn.resico.test.entity.InterfaceInstance;
 import cn.resico.test.entity.Testcase;
 import cn.resico.test.mapper.TestcaseMapper;

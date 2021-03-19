@@ -1,4 +1,4 @@
-package cn.resico.test.controller;
+package cn.resico.test.controller.interfaceAuto;
 
 import cn.resico.test.dto.InterfaceInstanceDTO;
 import cn.resico.test.entity.Testcase;
@@ -98,7 +98,6 @@ public class TestcaseController {
         model.addAttribute("testcaseId", testcaseId);
         return "testcaseDetailPage";
     }
-
 
 
     @RequestMapping("/{id}/interfaceInstancePage")

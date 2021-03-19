@@ -1,0 +1,8 @@
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/how2java?characterEncoding=UTF-8
+jdbc.username=root
+jdbc.password=admin
+
+login.test.url=https://api.test.ustax.tech/auth/login
+login.test.username=15902379217
+login.test.password=0a13871135c684f55f89bd1103f790d9

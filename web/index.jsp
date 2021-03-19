@@ -20,6 +20,9 @@
         <button class="btn btn-warning" type="button">
             <a href="${pageContext.request.contextPath}/testcase/listPage"> 进入用例页面</a>
         </button>
+        <button class="btn btn-warning" type="button">
+            <a href="${pageContext.request.contextPath}/gitStatistic/statistic"> 查看bug统计率</a>
+        </button>
     </div>
 </div>
 

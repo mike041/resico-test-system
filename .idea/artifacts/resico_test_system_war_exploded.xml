@@ -49,6 +49,8 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.3" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.3" />
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.13" />
+          <element id="library" level="project" name="Maven: org.gitlab4j:gitlab4j-api:4.14.30" />
+          <element id="library" level="project" name="Maven: com.mashape.unirest:unirest-java:1.4.9" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="resico-test-system/web/Web" />

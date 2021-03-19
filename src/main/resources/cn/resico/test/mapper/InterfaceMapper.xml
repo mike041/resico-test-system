@@ -26,11 +26,14 @@
 	ii.verification_type,
 	ii.verification_context,
 	ii.interface_instance_result,
+	ii.save_result,
 	ii.sort,
 	t.NAME testcase_name,
 	i.DATA interface_data,
 	i.NAME interface_name,
-	i.url interface_url
+	i.base_path,
+	i.url interface_url,
+	i.request_type
 FROM
 	interface_instance ii
 	LEFT JOIN testcase t ON t.id = ii.testcase_id

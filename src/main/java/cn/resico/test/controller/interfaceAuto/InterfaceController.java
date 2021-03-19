@@ -1,10 +1,11 @@
-package cn.resico.test.controller;
+package cn.resico.test.controller.interfaceAuto;
 
 import cn.resico.test.dto.InterfaceDTO;
 import cn.resico.test.entity.Interface;
 import cn.resico.test.entity.InterfaceInstance;
 import cn.resico.test.service.InterfaceService;
 import cn.resico.test.vo.interfcace.InterfaceQuery;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,4 +32,6 @@ public class InterfaceInstance {
     @TableField("interface_instance_result")
     private String interfaceInstanceResult;
     private Integer sort;
+    @TableField("save_result")
+    private List<String> saveResult;
 }
