@@ -25,8 +25,12 @@ import java.util.Map;
 
 
 public class Request {
-    RequestConfig config;
-
+    private String type;
+    private String url;
+    private String json;
+    private Map<String, Object> param;
+    private List<Header> headers;
+    private RequestConfig config;
     public Request() {
         config = RequestConfig.custom().
                 setConnectTimeout(20000).
@@ -34,12 +38,6 @@ public class Request {
                 .build();
 
     }
-
-
-    public void setRequestConfig(RequestConfig config) {
-        this.config = config;
-    }
-
 
     public String sendRequest(String type, String url, String json, Map<String, Object> param, List<Header> headers) {
         String response = ("post".equalsIgnoreCase(type))

@@ -33,16 +33,18 @@ public class CustomGenerator {
         dsc.setTypeConvert(new MySqlTypeConvert());
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("admin");
-        dsc.setUrl("jdbc:mysql://localhost:3306/how2java?characterEncoding=UTF-8&useSSL=false");
+        dsc.setPassword("Resico@2020#dev");
+        dsc.setUrl("jdbc:mysql://192.168.100.43:3306/zlb?characterEncoding=UTF-8&useSSL=false");
         mpg.setDataSource(dsc);
 
 
         //策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude(new String[]{"interface","interface_group","interface_hisotry",
+     /*   strategy.setInclude(new String[]{"interface","interface_group","interface_hisotry",
         "interface_with_params","testcase","testcase_group","testcase_instance",
-        "testcase_interface_relation"}); // 需要生成的表
+        "testcase_interface_relation"}); // 需要生成的表*/
+
+        strategy.setInclude(new String[]{"zlb_trade_delivery"}); // 需要生成的表
         /*strategy.setTablePrefix("library_");// 此处可以修改为您的表前缀*/
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         mpg.setStrategy(strategy);
@@ -55,8 +57,13 @@ public class CustomGenerator {
 
         //目录配置
         TemplateConfig tc = new TemplateConfig();
+        //是否生成Controller层
         tc.setController(null);
+        //是否生成Service层
         tc.setService(null);
+        //是否生成ServiceImpl层
+        tc.setServiceImpl(null);
+        //是否生成xml
         tc.setXml(null);
         mpg.setTemplate(tc);
 

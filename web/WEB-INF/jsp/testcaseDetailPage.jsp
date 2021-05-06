@@ -54,16 +54,16 @@
                 </thead>
                 <tbody>
 
-                <c:forEach var="interfaceInstanceDTO" items="${interfaceInstanceDTOList}">
+                <c:forEach var="testcaseDetailDTO" items="${testcaseDetailDTOList}">
                     <tr>
                         <td>
-                                ${interfaceInstanceDTO.id}
+                                ${testcaseDetailDTO.id}
                         </td>
                         <td>
-                                ${interfaceInstanceDTO.interfaceName}
+                                ${testcaseDetailDTO.interfaceName}
                         </td>
                         <td>
-                                ${interfaceInstanceDTO.instanceData}
+                                ${testcaseDetailDTO.instanceData}
                         </td>
                         <td>
                                 <%--

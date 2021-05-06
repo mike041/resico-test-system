@@ -1,8 +1,7 @@
 package cn.resico.test.controller.gitStatistics;
 
-import cn.resico.test.entity.gitStatistics.User;
+import cn.resico.test.entity.gitStatistics.StatisticsUser;
 import cn.resico.test.service.gitStatistics.StatisticsService;
-import cn.resico.test.vo.gitStatistics.GitQuery;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,11 +21,15 @@ public class StatisticsController {
     StatisticsService statisticsService;
 
     @RequestMapping("/statistic")
-    public String statistic(GitQuery query, Model model) throws Exception {
-        List<User> statistics = statisticsService.statistic(query);
-        System.out.println("--------------!!!!!");
+    public String statistic(String start, String end, Model model) throws Exception {
+        List<StatisticsUser> statistics = statisticsService.statistic(start, end);
         model.addAttribute("statistics", statistics);
-        return "statisticPage";
+        return "statisticsPage";
+    }
+
+    @RequestMapping("/statisticPage")
+    public String statisticPage() {
+        return "statisticsPage";
     }
 
 

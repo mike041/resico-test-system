@@ -2,11 +2,8 @@ package cn.resico.test.service.impl;
 
 import cn.resico.test.converter.InterfaceConverter;
 import cn.resico.test.dto.InterfaceDTO;
-import cn.resico.test.dto.InterfaceInstanceDTO;
 import cn.resico.test.entity.InterfaceHistory;
-import cn.resico.test.entity.InterfaceInstance;
 import cn.resico.test.mapper.InterfaceHistoryMapper;
-import cn.resico.test.mapper.InterfaceInstanceMapper;
 import cn.resico.test.mapper.InterfaceMapper;
 import cn.resico.test.entity.Interface;
 import cn.resico.test.service.InterfaceService;
@@ -23,8 +20,6 @@ public class InterfaceServiceImpl implements InterfaceService {
     //service层 调用dao层
     @Autowired
     private InterfaceMapper interfaceMapper;
-    @Autowired
-    private InterfaceInstanceMapper interfaceInstanceMapper;
     @Autowired
     private InterfaceHistoryMapper interfaceHistoryMapper;
 
@@ -64,10 +59,6 @@ public class InterfaceServiceImpl implements InterfaceService {
         return interfaceMapper.selectById(id);
     }
 
-    @Override
-    public List<InterfaceInstanceDTO> queryInterfaceInstanceById(Integer id) {
-        return interfaceMapper.selectInstance(id);
-    }
 
     @Override
     public List<Interface> queryInterfaceByIds(List<Integer> ids) {
@@ -78,29 +69,5 @@ public class InterfaceServiceImpl implements InterfaceService {
     public List<InterfaceDTO> query(InterfaceQuery query) {
         return interfaceMapper.selectList(query);
     }
-
-    @Override
-    public int addInstance(InterfaceInstance i) {
-        return interfaceInstanceMapper.insert(i);
-    }
-
-    @Override
-    public int updateInstance(InterfaceInstance i) {
-        return interfaceInstanceMapper.updateById(i);
-    }
-
-    @Override
-    public int deleteInstance(Integer id) {
-        return interfaceInstanceMapper.deleteById(id);
-    }
-
-    @Override
-    public int deleteInstancesByIds(List<Integer> ids) {
-        return interfaceInstanceMapper.deleteBatchIds(ids);
-    }
-
-
-
-
 
 }

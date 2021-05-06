@@ -1,27 +1,69 @@
 package cn.resico.test.service;
 
+import cn.resico.test.dto.TestcaseDetailDTO;
 import cn.resico.test.entity.Testcase;
-import cn.resico.test.vo.interfcace.TestcaseQuery;
+import cn.resico.test.entity.TestcaseDetail;
 
 import java.util.List;
 
 
 public interface TestcaseService {
 
+    /**
+     * 新增用例
+     *
+     * @param i
+     * @return
+     */
     int addTestcase(Testcase i);
 
+    /**
+     * 更新用例
+     *
+     * @param i
+     * @return
+     */
     int updateTestcase(Testcase i);
 
-    int deleteTestcase(Integer id);
+    /**
+     * 查询用例
+     *
+     * @param testcaseId
+     * @return
+     */
+    Testcase queryTestcaseById(Integer testcaseId);
 
-    int deleteTestcaseByIds(List<Integer> ids);
+    /**
+     * 通过testcaseId查询用例详情
+     *
+     * @param testcaseId
+     * @return
+     */
+    TestcaseDetailDTO queryTestcaseDetail(Integer testcaseId);
 
 
-    Testcase queryTestcaseById(Integer id);
+    /**
+     * 按用例名称模糊查询
+     *
+     * @param name
+     * @return
+     */
+    List<Testcase> query(String name);
 
-    List<Testcase> queryTestcaseByIds(List<Integer> ids);
 
+    /**
+     * 新增用例明细
+     *
+     * @param detail
+     * @return
+     */
+    int addTestcaseDetail(TestcaseDetail detail);
 
-    List<Testcase> query(TestcaseQuery query);
+    /**
+     * 查询所有用例
+     *
+     * @return
+     */
+    List<Testcase> queryAll();
 
 }

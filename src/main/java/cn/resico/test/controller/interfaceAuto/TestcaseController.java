@@ -1,10 +1,8 @@
 package cn.resico.test.controller.interfaceAuto;
 
-import cn.resico.test.dto.InterfaceInstanceDTO;
 import cn.resico.test.entity.Testcase;
 import cn.resico.test.service.InterfaceService;
 import cn.resico.test.service.TestcaseService;
-import cn.resico.test.vo.interfcace.TestcaseQuery;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,42 +23,22 @@ public class TestcaseController {
     /*controller 调用service*/
     @Autowired
     private TestcaseService testcaseService;
-    @Autowired
-    private InterfaceService interfaceService;
 
-    /**
-     * 跳转接口列表页
-     *
-     * @param
-     * @param model
-     * @return
-     */
-
+    @ApiOperation("跳转接口列表页")
     @RequestMapping("/listPage")
-    public String testcaseList(TestcaseQuery query, Model model) {
-        List<Testcase> testcaseList = testcaseService.query(query);
+    public String testcaseList(String name, Model model) {
+        List<Testcase> testcaseList = testcaseService.query(name);
         model.addAttribute("testcaseList", testcaseList);
         return "allTestcasePage";
     }
 
-
-    /**
-     * 跳转新增接口页
-     *
-     * @return
-     */
+    @ApiOperation("跳转新增接口页")
     @RequestMapping("/addPage")
     public String toAdd() {
         return "addTestcase";
     }
 
-    /**
-     * 跳转更新接口页
-     *
-     * @param id    接口id
-     * @param model 视图模型
-     * @return
-     */
+    @ApiOperation("跳转更新接口页")
     @RequestMapping("/updatePage")
     public String toUpdate(int id, Model model) {
         Testcase testcase = testcaseService.queryTestcaseById(id);
@@ -68,18 +46,10 @@ public class TestcaseController {
         return "updateTestcase";
     }
 
-
+    @ApiOperation("新增接口")
     @RequestMapping("/add")
     public String add(Testcase testcase) {
         testcaseService.addTestcase(testcase);
-        return "redirect: /testcase/listPage";
-    }
-
-
-    @ApiOperation("删除用例")
-    @RequestMapping("/delete/{id}")
-    public String delete(@PathVariable("id") int id) {
-        testcaseService.deleteTestcase(id);
         return "redirect: /testcase/listPage";
     }
 
@@ -89,22 +59,4 @@ public class TestcaseController {
         testcaseService.updateTestcase(testcase);
         return "redirect: /testcase/listPage";
     }
-
-    @ApiOperation("查询测试用例详情")
-    @RequestMapping("/{id}")
-    public String testcaseDetail(@PathVariable("id") Integer testcaseId, Model model) {
-        List<InterfaceInstanceDTO> interfaceInstanceDTOList = interfaceService.queryInterfaceInstanceById(testcaseId);
-        model.addAttribute("interfaceInstanceDTOList", interfaceInstanceDTOList);
-        model.addAttribute("testcaseId", testcaseId);
-        return "testcaseDetailPage";
-    }
-
-
-    @RequestMapping("/{id}/interfaceInstancePage")
-    public String InterfaceInstancePage(@PathVariable("id") Integer testcaseId, Model model) {
-        model.addAttribute("testcaseId", testcaseId);
-        return "interfaceInstancePage";
-    }
-
-
 }

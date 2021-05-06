@@ -1,8 +1,9 @@
 package cn.resico.test.service.gitStatistics.impl;
 
-import cn.resico.test.entity.gitStatistics.User;
+import cn.resico.test.entity.gitStatistics.StatisticsUser;
+import cn.resico.test.mapper.gitStatistics.StatisticsUserMapper;
 import cn.resico.test.service.gitStatistics.StatisticsService;
-import cn.resico.test.vo.gitStatistics.GitQuery;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -13,9 +14,14 @@ import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.Project;
+import org.gitlab4j.api.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.testng.annotations.Test;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -23,11 +29,8 @@ import java.util.*;
 @Service("statisticsServiceImpl")
 @Slf4j
 public class StatisticsServiceImpl implements StatisticsService {
-
-
-    Set<String> username = new HashSet<>();
-    Map<String, User> map = new HashMap<>();
-    List<User> userList = new ArrayList<>();
+    @Autowired
+    StatisticsUserMapper statisticsUserMapper;
 
     static Integer[] OBJECT_NUMBERS_RESICO_RD = {
             35, 134, 132, 130, 129, 126, 125, 124, 122, 118, 112, 105, 101, 91, 90, 42, 41, 40, 39, 38,//后端
@@ -46,98 +49,110 @@ public class StatisticsServiceImpl implements StatisticsService {
             61, 55, 52
     };//这写上你要统计的所有项目id
 
-
     static String token = "ar-mE1pshASQ-AJZmeYH";
     //这写上你家gitlab地址
     static GitLabApi gitLabApi;
-
+    static Map<String, String> userAndEmialMap = new HashMap();
 
     @Override
-    public List<User> statistic(GitQuery query) throws Exception {
+    public List<StatisticsUser> statistic(String start, String end) {
+        return statisticsUserMapper.selectList(null);
+    }
+
+    public void queryResult(String start, String end) throws ParseException, UnirestException, IOException, GitLabApiException {
+        if (start.equals("") && end.equals("")) {
+            return;
+        }
         gitLabApi = new GitLabApi("http://gitlab.ustax.tech/", token);
-        //获取要查询的工程
-        List<Integer> projectIds = (null != query.getProjectIds())
-                ? query.getProjectIds()
-                : getAllProjectIds();
+        setUserAndEmialMap();
 
-        List<String> users = (null != query.getUsers())
-                ? query.getUsers()
-                : getAllUsers();
+        List<StatisticsUser> users = statisticsUserMapper.selectList(null);
 
-        return query(users, projectIds, query.getStart(), query.getEnd());
-    }
-
-
-    public List<Integer> getAllProjectIds() throws GitLabApiException {
-        List<Project> PROJECTS = gitLabApi.getProjectApi().getProjects();
-        List<Integer> projectIds = new ArrayList<>();
-        for (Project project : PROJECTS) {
-            projectIds.add(project.getId());
+        build(users, start, end);
+        for (StatisticsUser u : users) {
+            u.setBugNumber(getBug(u.getUsername(), start, end));
+            int codeNumber = (u.getCodeNumber() == 0)
+                    ? 1
+                    : u.getCodeNumber();
+            u.setBugRatio((float) u.getBugNumber() / ((float) codeNumber / 1000F));
+            statisticsUserMapper.updateById(u);
         }
-        return projectIds;
     }
 
-    public List<String> getAllUsers() throws GitLabApiException {
-        List<org.gitlab4j.api.models.User> ACTIVE_USERS = gitLabApi.getUserApi().getActiveUsers();
-        List<String> users = new ArrayList<>();
-        for (org.gitlab4j.api.models.User activeUser : ACTIVE_USERS) {
-            users.add(activeUser.getUsername());
+    /**
+     * 更新userName的统计
+     *
+     * @param userName
+     * @param start
+     * @param end
+     * @throws ParseException
+     * @throws UnirestException
+     * @throws IOException
+     * @throws GitLabApiException
+     */
+
+    @Override
+    public void queryResult(String userName, String start, String end) throws ParseException, UnirestException, IOException, GitLabApiException {
+        if (start.equals("") && end.equals("")) {
+            return;
         }
-        return users;
-    }
+        gitLabApi = new GitLabApi("http://gitlab.ustax.tech/", token);
+        setUserAndEmialMap();
 
-    public List<User> query(List<String> users, List<Integer> projectIds, String start, String end) throws GitLabApiException, UnirestException, ParseException {
+        QueryWrapper queryWrapper = new QueryWrapper<StatisticsUser>();
+        queryWrapper.eq("username", userName);
+        List<StatisticsUser> users = statisticsUserMapper.selectList(queryWrapper);
+
+        build(users, start, end);
+        for (StatisticsUser u : users) {
+            u.setBugNumber(getBug(u.getUsername(), start, end));
+            int codeNumber = (u.getCodeNumber() == 0)
+                    ? 1
+                    : u.getCodeNumber();
+            u.setBugRatio((float) u.getBugNumber() / ((float) codeNumber / 1000F));
+            statisticsUserMapper.updateById(u);
+        }
+    }
+  
+    private void build(List<StatisticsUser> users, String start, String end) throws GitLabApiException, ParseException, IOException {
+        List<Integer> projectIds = getAllProjectIds();
+        /*List<Integer> projectIds =Arrays.asList(new Integer[]{38});*/
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        return query(users, projectIds, sdf.parse(start), sdf.parse(end));
-    }
-
-    public List<User> query(List<String> users, List<Integer> projectIds, Date start, Date end) throws GitLabApiException, UnirestException {
-
         for (Integer projectId : projectIds) {
-            List<Commit> commits = gitLabApi.getCommitsApi().getCommits(projectId, "master", start, end);
-
-            if (null != commits && commits.isEmpty()) {
+            List<Commit> commits = gitLabApi.getCommitsApi().getCommits(projectId, "master", sdf.parse(start), sdf.parse(end));
+            if (null == commits) {
                 continue;
             }
             for (Commit commit : commits) {
+                commit = gitLabApi.getCommitsApi().getCommit(projectId, commit.getId());
 
-                String userName = commit.getAuthorName();
-               /* if (!users.contains(userName)) {
-                    continue;
-                }*/
-
-                User user = null;
-                if (!username.contains(userName)) {
-                    user = User.builder()
-                            .name(userName)
-                            .line(0)
-                            .additions(0)
-                            .deletions(0)
-                            .bugNumber(getBug(userName))
-                            .build();
-                    username.add(userName);
-                    map.put(userName, user);
-                    userList.add(user);
-                } else {
-                    user = map.get(userName);
+                String userName = userAndEmialMap.get(commit.getAuthorEmail());
+                for (StatisticsUser user : users) {
+                    if (user.getUsername().equals(userName)) {
+                        Integer additions = commit.getStats().getAdditions();
+                        Integer deletions = commit.getStats().getDeletions();
+                        Integer line = commit.getStats().getTotal();
+                        user.setLine(user.getLine() + line);
+                        user.setAdditions(user.getAdditions() + additions);
+                        user.setDeletions(user.getDeletions() + deletions);
+                        user.setCodeNumber(user.getCodeNumber() + additions - deletions);
+                        user.setCommitTimes(user.getCommitTimes() + 1);
+                        break;
+                    }
                 }
-                commit = gitLabApi.getCommitsApi().getCommit(projectId, commit.getShortId());
-                Integer additions = commit.getStats().getAdditions();
-                Integer deletions = commit.getStats().getDeletions();
-                user.setLine(user.getLine() + additions - deletions);
-                user.setAdditions(user.getAdditions() + additions);
-                user.setDeletions(user.getDeletions() + deletions);
-                user.setCommitTimes(user.getCommitTimes() + 1);
-                log.info("项目：{}，用户：{}", projectId, user);
             }
+            log.info("完成" + projectId);
         }
-        return userList;
+        log.info("查询结束");
     }
 
-    public int getBug(String user) throws UnirestException {
+    private int getBug(String user, String start, String end) throws UnirestException, ParseException {
         log.info("查询{}的bug数量", user);
-        String jql = "issuetype in (线上故障, 线下Bug) AND created >= 2021-01-01 AND created <= 2021-03-31 AND 处理人 in (%s)";
-        String format = String.format(jql, user);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+
+        String jql = "issuetype in (线上故障, 线下Bug) AND created >= %s AND created <= %s AND 处理人 in (%s)";
+        String format = String.format(jql, sdf1.format(sdf.parse(start)), sdf1.format(sdf.parse(end)), user);
         HttpResponse<JsonNode> response = Unirest.get("http://jira2.ustax.tech/rest/api/2/search")
                 .basicAuth("zhouyunteng", "qaz19950401")
                 .header("Accept", "application/json")
@@ -146,30 +161,65 @@ public class StatisticsServiceImpl implements StatisticsService {
         Integer bugNumber = (response.getBody().getObject().has("total")) ?
                 (Integer) response.getBody().getObject().get("total")
                 : 0;
-
         return bugNumber;
     }
 
-    @Test
-    public void bug() throws UnirestException, GitLabApiException {
-        List<org.gitlab4j.api.models.User> ACTIVE_USERS = gitLabApi.getUserApi().getActiveUsers();
-
-        for (org.gitlab4j.api.models.User active_user : ACTIVE_USERS) {
-            System.out.println(getBug(active_user.getUsername()));
+    private void setUserAndEmialMap() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("src\\main\\resources\\User.properties"));
+        String str;
+        HashSet<String> username = new HashSet<>();
+        while ((str = reader.readLine()) != null) {
+            if (username.contains(str.split("=")[1])) {
+                continue;
+            }
+            userAndEmialMap.put(str.split("=")[0], str.split("=")[1]);
         }
+    }
 
+    private List<Integer> getAllProjectIds() throws GitLabApiException {
+        List<Project> PROJECTS = gitLabApi.getProjectApi().getProjects();
+        List<Integer> projectIds = new ArrayList<>();
+        for (Project project : PROJECTS) {
+            projectIds.add(project.getId());
+        }
+        return projectIds;
+    }
+
+
+    /*获取所有未映射的邮件*/
+    @Test
+    public void test2() throws Exception {
+        Map<String, String> userNotInConfig = new HashMap();
+        gitLabApi = new GitLabApi("http://gitlab.ustax.tech/", token);
+        setUserAndEmialMap();
+        List<Project> projects = gitLabApi.getProjectApi().getProjects();
+        for (Project project : projects) {
+            List<Commit> commits = gitLabApi.getCommitsApi().getCommits(project.getId());
+            if (null == commits || commits.isEmpty()) {
+                continue;
+            }
+            for (Commit commit : commits) {
+                if (!userAndEmialMap.containsKey(commit.getAuthorEmail())) {
+                    if (userNotInConfig.containsKey(commit.getAuthorEmail()))
+                        continue;
+                    System.out.println(commit.getAuthorEmail() + ":" + commit.getAuthorName());
+                    userNotInConfig.put(commit.getAuthorEmail(), commit.getAuthorName());
+                }
+            }
+        }
+        System.out.println(userNotInConfig);
+    }
+
+    public Commit getCommit(Object projectIdOrPath, String sha) throws GitLabApiException {
+        gitLabApi = new GitLabApi("http://gitlab.ustax.tech/", token);
+        Commit c = gitLabApi.getCommitsApi().getCommit(projectIdOrPath, sha);
+        System.out.println(c);
+        return c;
     }
 
     @Test
-    public void test() throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        Date start = sdf.parse("20210101");
-        Date end = sdf.parse("20210331");
-        GitQuery query = new GitQuery();
-        query.setStart(start);
-        query.setEnd(end);
-
-        List<User> statistic = statistic(query);
-
+    public void Test() throws GitLabApiException {
+        getCommit(38, "0015d95c");
     }
+
 }

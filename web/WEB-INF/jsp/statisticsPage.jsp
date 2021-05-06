@@ -31,14 +31,14 @@
 
 
 <div id="new">
-    <form class="form-inline" action="${pageContext.request.contextPath}/testcase/listPage" method="post">
+    <form class="form-inline" action="${pageContext.request.contextPath}/gitStatistic/statistic" method="post">
         <div class="form-group">
-            <label>用例名称</label>
-            <input type="text" class="form-control" name="name">
+            <label>开始时间</label>
+            <input type="text" class="form-control" name="start">
         </div>
         <div class="form-group">
-            <label>用例分组</label>
-            <input type="text" class="form-control" name="groupId">
+            <label>结束时间</label>
+            <input type="text" class="form-control" name="end">
         </div>
         <button type="submit" class="btn btn-info">查询</button>
     </form>
@@ -52,42 +52,31 @@
                 <thead>
                 <tr>
                     <th>
-                        编号
+                        姓名
                     </th>
                     <th>
-                        用例名称
+                        bug数量
                     </th>
                     <th>
-                        分组名称
-                    </th>
-
-                    <th>
-                        操作
+                       代码数量
                     </th>
                 </tr>
                 </thead>
                 <tbody>
 
-                <c:forEach var="testcase" items="${testcaseList}">
+                <c:forEach var="statisticsUser" items="${statistics}">
                     <tr>
                         <td>
-                                ${testcase.id}
+                                ${statisticsUser.name}
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/testcase/${testcase.id}"> ${testcase.name}</a>
-
+                                ${statisticsUser.bugNumber}<%--/${statisticsUser.line}*1000--%>
                         </td>
-
                         <td>
-                                ${testcase.groupName}
+                                ${statisticsUser.line}<%--/${statisticsUser.line}*1000--%>
                         </td>
-
                         <td>
-                                <%--
-                               <a href="${pageContext.request.contextPath}/testcase/updatePage?id=${testcase.id}">修改</a>
-                               &nbsp; | &nbsp;
-                               <a href="${pageContext.request.contextPath}/interface/delete/${interfaceDTO.id}">删除</a>
-                                   --%>
+                                ${statisticsUser.bugNumber/statisticsUser.line*1000}
                         </td>
                     </tr>
                 </c:forEach>

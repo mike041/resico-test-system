@@ -27,6 +27,8 @@ public class ParsingSwagger {
 
     @Autowired
     InterfaceMapper interfaceMapper;
+    @Autowired
+    InterfaceGroupMapper interfaceGroupMapper;
 
 
     public ParsingSwagger() {
@@ -77,7 +79,14 @@ public class ParsingSwagger {
         return map;
     }
 
-    public List<Interface> synchronizeInterface(JsonNode paths, InterfaceGroupMapper interfaceGroupMapper) throws JsonProcessingException {
+
+    /**
+     * 同步财务swagger数据，同步不会清除旧数据
+     * @param paths
+     * @return
+     * @throws JsonProcessingException
+     */
+    public List<Interface> synchronizeInterface(JsonNode paths) throws JsonProcessingException {
         List<Interface> interfaceList = new ArrayList<>();
         Iterator<Map.Entry<String, JsonNode>> swaggerInterfaceList = paths.fields();
 
@@ -106,7 +115,7 @@ public class ParsingSwagger {
         return interfaceList;
     }
 
-    public void synchronizeInterfaceGroup(JsonNode tags, InterfaceGroupMapper interfaceGroupMapper) {
+    public void synchronizeInterfaceGroup(JsonNode tags) {
         JavaType type = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, InterfaceGroup.class);
         ArrayList<InterfaceGroup> groups = null;
         try {
@@ -160,7 +169,6 @@ public class ParsingSwagger {
 
     public String getRequestType(JsonNode interfaceNode) {
         return interfaceNode.fields().next().getKey();
-
     }
 
 }

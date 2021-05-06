@@ -9,7 +9,7 @@
     <!--映射器、视图解析器 文件解析器-->
 
     <!--启用spring的一些annotation
-    <context:annotation-config/>-->
+    <context:annotation-JDBCConfig.properties/>-->
     <!--1.注解驱动  可以将request参数与绑定到controller参数上 -->
     <mvc:annotation-driven/>
     <!--2.静态资源过滤-->

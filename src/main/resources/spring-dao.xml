@@ -22,7 +22,7 @@
     <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         &lt;!&ndash;绑定mybatis的配置文件&ndash;&gt;
-        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="configLocation" value="classpath:mybatis-JDBCConfig.properties.xml"/>
     </bean>-->
 
 
@@ -50,7 +50,7 @@
 
     <bean id="dbConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">
         <!-- 全局ID类型： 0, "数据库ID自增"， 1, "用户输入ID", 2, "全局唯一ID", 3, "全局唯一ID"-->
-        <property name="idType" value="AUTO"/>
+        <property name="idType" value="INPUT"/>
     </bean>
 
 

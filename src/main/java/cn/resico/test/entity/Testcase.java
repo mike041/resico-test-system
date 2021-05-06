@@ -1,12 +1,14 @@
 package cn.resico.test.entity;
 
 
+import cn.resico.test.dto.TestcaseDetailDTO;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -33,6 +35,5 @@ public class Testcase implements Serializable {
      */
     @TableField("testcase_group_id")
     private Integer testcaseGroupId;
-
 
 }

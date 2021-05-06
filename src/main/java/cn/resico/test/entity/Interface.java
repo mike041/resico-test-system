@@ -22,6 +22,8 @@ public class Interface {
     @TableId(type = IdType.AUTO)
     private int id;
     private String name;
+    @TableField("base_path")
+    private String basePath;
     @TableField("request_type")
     private String requestType;
     @TableField("protocol_type")

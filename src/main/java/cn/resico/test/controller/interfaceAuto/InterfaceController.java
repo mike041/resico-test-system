@@ -2,10 +2,8 @@ package cn.resico.test.controller.interfaceAuto;
 
 import cn.resico.test.dto.InterfaceDTO;
 import cn.resico.test.entity.Interface;
-import cn.resico.test.entity.InterfaceInstance;
 import cn.resico.test.service.InterfaceService;
 import cn.resico.test.vo.interfcace.InterfaceQuery;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -90,25 +88,6 @@ public class InterfaceController {
     }
 
 
-    @RequestMapping("/instance/add")
-    public String addInstance(InterfaceInstance i) {
-        interfaceService.addInstance(i);
-        return "redirect: /interface/listPage";
-    }
-
-
-    @RequestMapping("/delete/instance/{id}")
-    public String deleteInstance(@PathVariable("id") int id) {
-        interfaceService.deleteInstance(id);
-        return "redirect: /interface/listPage";
-    }
-
-
-    @RequestMapping("/update/instance")
-    public String updateInstance(InterfaceInstance i) {
-        interfaceService.updateInstance(i);
-        return "redirect: /interface/listPage";
-    }
 
 
 }

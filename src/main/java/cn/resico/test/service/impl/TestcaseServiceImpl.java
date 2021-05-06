@@ -1,15 +1,15 @@
 package cn.resico.test.service.impl;
 
-import cn.resico.test.entity.InterfaceInstance;
+import cn.resico.test.dto.TestcaseDetailDTO;
 import cn.resico.test.entity.Testcase;
-import cn.resico.test.mapper.InterfaceInstanceMapper;
+import cn.resico.test.entity.TestcaseDetail;
+import cn.resico.test.mapper.TestcaseDetailMapper;
 import cn.resico.test.mapper.TestcaseMapper;
 import cn.resico.test.service.TestcaseService;
-import cn.resico.test.vo.interfcace.TestcaseQuery;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -19,15 +19,12 @@ public class TestcaseServiceImpl implements TestcaseService {
     //service层 调用dao层
     @Autowired
     private TestcaseMapper testcaseMapper;
-
     @Autowired
-    private InterfaceInstanceMapper interfaceInstanceMapper;
-
+    TestcaseDetailMapper testcaseDetailMapper;
 
 
     @Override
     public int addTestcase(Testcase testcase) {
-
         return testcaseMapper.insert(testcase);
     }
 
@@ -37,34 +34,31 @@ public class TestcaseServiceImpl implements TestcaseService {
     }
 
     @Override
-    public int deleteTestcase(Integer id) {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("testcase_id", id);
-        List<InterfaceInstance> interfaceInstanceList = interfaceInstanceMapper.selectByMap(map);
-        for (InterfaceInstance interfaceInstance :
-                interfaceInstanceList) {
-            interfaceInstanceMapper.deleteById(interfaceInstance.getId());
-        }
-        return testcaseMapper.deleteById(id);
+    public Testcase queryTestcaseById(Integer testcaseId) {
+        return testcaseMapper.selectById(testcaseId);
     }
 
     @Override
-    public int deleteTestcaseByIds(List<Integer> ids) {
-        return testcaseMapper.deleteBatchIds(ids);
+    public TestcaseDetailDTO queryTestcaseDetail(Integer testcaseId) {
+        return testcaseMapper.selectDetail(testcaseId);
     }
 
     @Override
-    public Testcase queryTestcaseById(Integer id) {
-        return testcaseMapper.selectById(id);
+    public List<Testcase> query(String name) {
+        QueryWrapper wrapper = new QueryWrapper<Testcase>();
+        wrapper.like("name", name);
+        return testcaseMapper.selectList(wrapper);
     }
 
     @Override
-    public List<Testcase> queryTestcaseByIds(List<Integer> ids) {
-        return testcaseMapper.selectBatchIds(ids);
+    public int addTestcaseDetail(TestcaseDetail detail) {
+        return testcaseDetailMapper.insert(detail);
     }
 
     @Override
-    public List<Testcase> query(TestcaseQuery query) {
-        return testcaseMapper.select(query);
+    public List<Testcase> queryAll() {
+        return testcaseMapper.selectList(null);
     }
+
+
 }

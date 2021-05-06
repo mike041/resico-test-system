@@ -33,14 +33,14 @@
 
 
 <div id="new">
-    <form class="form-inline" action="${pageContext.request.contextPath}/gitStatistic/statistic" method="post">
+    <form class="form-inline" action="${pageContext.request.contextPath}/testcase/listPage" method="post">
         <div class="form-group">
-            <label>开始时间</label>
-            <input type="text" class="form-control" name="start">
+            <label>用例名称</label>
+            <input type="text" class="form-control" name="name">
         </div>
         <div class="form-group">
-            <label>结束时间</label>
-            <input type="text" class="form-control" name="end">
+            <label>用例分组</label>
+            <input type="text" class="form-control" name="groupId">
         </div>
         <button type="submit" class="btn btn-info">查询</button>
     </form>
@@ -54,24 +54,43 @@
                 <thead>
                 <tr>
                     <th>
-                        姓名
+                        编号
                     </th>
                     <th>
-                        千行bug率
+                        用例名称
+                    </th>
+                    <th>
+                        分组名称
+                    </th>
+
+                    <th>
+                        操作
                     </th>
                 </tr>
                 </thead>
                 <tbody>
 
-                <c:forEach var="user" items="${statistics}">
+                <c:forEach var="testcase" items="${testcaseList}">
                     <tr>
                         <td>
-                                ${user.name}
+                                ${testcase.id}
                         </td>
                         <td>
-                                ${user.bugNumber}/${user.line}*1000
+                            <a href="${pageContext.request.contextPath}/testcase/${testcase.id}"> ${testcase.name}</a>
+
                         </td>
 
+                        <td>
+                                ${testcase.groupName}
+                        </td>
+
+                        <td>
+                                <%--
+                               <a href="${pageContext.request.contextPath}/testcase/updatePage?id=${testcase.id}">修改</a>
+                               &nbsp; | &nbsp;
+                               <a href="${pageContext.request.contextPath}/interface/delete/${interfaceDTO.id}">删除</a>
+                                   --%>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
